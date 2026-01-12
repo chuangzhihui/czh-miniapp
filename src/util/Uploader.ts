@@ -4,30 +4,38 @@ import {HttpResponse} from "./Request";
 
 export interface CZHUploaderProps{
   filePath:string;//文件路径
+  fileType:number;//文件类型 1图片，2视频
   onPercent?:(percent:number) => void;//进度回调
   onOk?:(res:CZHFileUploadResult)=>void;
   onError?:(error:string) => void;//上传错误回调
-  fileType:number;//文件类型 1图片，2视频
+
+}
+export enum UploadStatus{
+  SUCCESS=1,//上传成功
+  FAIL=2,//上传失败
+  UPLOADING=3,//上传中
+}
+export interface CZHFileItem{
+  url?:string;//文件地址
+  thumb?:string;//缩略图
   fileWidth:number;//图片或者视频宽其它为0
   fileHeight:number;//图片或者视频宽其它为0
   fileSize:number;//文件大小kb
+  fileType:number;//文件类型 1图片，2视频
+  tempFilePath?:string;//临时文件路径
+  thumbTempFilePath?:string;//临时缩略图路径
+  uploadStatus:UploadStatus;//上传状态
+  progress?:number;//上传进度
+  uploadTask?:any;//上传任务
 }
 export interface CZHFileUploadResult{
   url:string;//文件地址
-  fileWidth:number;//图片或者视频宽其它为0
-  fileHeight:number;//图片或者视频宽其它为0
-  fileSize:number;//文件大小kb
-  fileType:number;//文件类型 1图片，2视频
   thumb?:string;//缩略图
 }
 const CZHUploader=async (props:CZHUploaderProps)=>{
     const res = await  getUploadConfigApi();
     if(res.code!==200) {
-      Taro.showModal({
-        title: '提示',
-        showCancel:false,
-        content: "获取token失败",
-      })
+      props.onError?.("获取token失败");
       return;
     }
     let url="";//上传地址
@@ -72,7 +80,7 @@ const CZHUploader=async (props:CZHUploaderProps)=>{
       }
     }
     console.log("formData",formData,"url",url)
-    Taro.uploadFile({
+    const uploadTask=Taro.uploadFile({
       url,
       filePath:props.filePath,
       name:"file",
@@ -137,12 +145,7 @@ const CZHUploader=async (props:CZHUploaderProps)=>{
         if(url)
         {
           props.onOk?.({
-            url: url,
-            fileWidth:props.fileWidth,
-            fileHeight:props.fileHeight,
-            fileSize:props.fileSize,
-            fileType:props.fileType,
-            thumb:baseUrl+key
+            url,thumb
           });
         }else{
           props.onError?.("上传失败");
@@ -152,9 +155,11 @@ const CZHUploader=async (props:CZHUploaderProps)=>{
         console.log("上传失败",error);
           props.onError?.(error.errMsg);
       }
-    }).progress(({progress})=>{
+    });
+    uploadTask.progress(({progress})=>{
       props.onPercent?.(progress);
     });
+    return uploadTask;
 }
 
 const getFileKey=(path:string)=>{

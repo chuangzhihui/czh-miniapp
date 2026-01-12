@@ -28,7 +28,7 @@ const FindPage=(_props:any, ref:any)=>{
       {/*  <CZHInput layout={"vertical"} label={"名称"} placeholder={"请输入名称"} required />*/}
       {/*</Form.Item>*/}
       <Form.Item noStyle name={"name"} rules={[{required:true,message:"请输入名称"}]}  >
-        <CZHUpload max={4}  required label={"上传图片"} />
+        <CZHUpload max={4} mediaType={2}  required label={"上传图片"} />
       </Form.Item>
       {/*<Form.Item noStyle name={"station_id"} rules={[{required:true,message:"请选择站点"}]}  >*/}
       {/*  <FormItem formRef={form} label={"站点名称"}  required={true} type={"stationList"} mode={2} placeholder={"请选择站点"} />*/}
