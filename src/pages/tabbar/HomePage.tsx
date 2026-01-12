@@ -3,8 +3,8 @@ import {View} from "@tarojs/components";
 import Taro, { useDidShow, useDidHide,useLoad } from '@tarojs/taro'
 import {Button} from "@nutui/nutui-react-taro";
 import dataList from "../index/data";
-import SectionListView from "../../component/ListView/SectionListView";
-import Request from "../../util/Request";
+import SectionListView, {SectionItem, SectionListViewRef} from "../../component/ListView/SectionListView";
+
 const HomePage=(_props:any, ref:any)=>{
   /**
    * 组件内不能使用load show等方法
@@ -15,33 +15,33 @@ const HomePage=(_props:any, ref:any)=>{
   useDidShow((param)=>{
     console.log("展示HomePage",param)
   })
-  const listRef=useRef(null);
+  const listRef=useRef<SectionListViewRef | null>(null);
   const renderHeader=()=>{
     return(
       <View onClick={()=>{
       }} style={{height:300,background:"orange"}}>
         <Button onClick={()=>{
           console.log(listRef.current)
-          listRef.current.scrollToSection(3)
+          listRef.current?.scrollToSection(3)
         }}>滚动到Section3</Button>
         <Button onClick={()=>{
           console.log(listRef.current)
-          listRef.current.scrollToItem(0,1)
+          listRef.current?.scrollToItem(0,1)
         }}>滚动到S0I1</Button>
         <Button onClick={()=>{
-          listRef.current.scrollToTop();
+          listRef.current?.scrollToTop();
         }}>滚动到顶部</Button>
         <Button onClick={()=>{
-            Taro.showLoading()
-            Request.POST("admin/login/login",{
-              username:"admin",
-              password:"zx123456",
-              code:"1234",
-              uuid:"edfsdfsdfsdf"
-            }).then(res=>{
-              Taro.hideLoading()
-              console.log("res",res)
-            })
+            // Taro.showLoading()
+            // Request.POST("admin/login/login",{
+            //   username:"admin",
+            //   password:"zx123456",
+            //   code:"1234",
+            //   uuid:"edfsdfsdfsdf"
+            // }).then(res=>{
+            //   Taro.hideLoading()
+            //   console.log("res",res)
+            // })
         }}>网络请求</Button>
       </View>
     );
@@ -60,19 +60,22 @@ const HomePage=(_props:any, ref:any)=>{
       </View>
     );
   }
-  const getData=(callback)=>{
+  const getData=(callback:(datas:SectionItem<any>[])=>void)=>{
     setTimeout(()=>{
       console.log(dataList)
-      callback(dataList)
+      callback(dataList as any)
     },1000)
   }
   return (
-    <SectionListView
+    <SectionListView<any>
       ref={listRef}
       renderHeader={renderHeader}
       renderItem={renderItem}
       renderSection={renderSection}
       getData={getData}
+      onSectionSelected={(section:any,index:number)=>{
+        console.log(section,index);
+      }}
       columns={2}
     />
   )

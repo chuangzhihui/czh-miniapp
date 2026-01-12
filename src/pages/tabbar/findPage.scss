@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  background-color: #f7f7f7;
+  padding: 20px 30px;
+}

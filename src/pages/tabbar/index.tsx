@@ -4,16 +4,16 @@ import {
   Button, Tabbar
 } from '@nutui/nutui-react-taro'
 import {Text, View} from "@tarojs/components";
-import { Cart, Category, Find, Home, User } from '@nutui/icons-react-taro'
+import { Cart, Category,Gift, Home, User } from '@nutui/icons-react-taro'
 import HomePage from "./HomePage"
 import CatePage from "./CatePage";
 import FindPage from "./FindPage";
 import CarPage from "./CarPage";
 import MyPage from "./MyPage";
-import MainView from "../../component/MainView";
+import SafeAreaView from "../../component/SafeAreaView";
 const Index = (_props:any,ref:any) => {
   console.log(_props,"_props")
-  const [index,setIndex]=useState<number>(0)
+  const [index,setIndex]=useState<number>(2)
   const Components=[
     HomePage,CatePage,FindPage,CarPage,MyPage
   ];
@@ -28,12 +28,13 @@ const Index = (_props:any,ref:any) => {
   });
 
   return (
-    <MainView >
-      <View style={{flex:1,background:"orange",display:'flex',overflowY:"scroll"}}>
+    <SafeAreaView >
+      <View style={{flex:1,display:'flex',overflowY:"scroll"}}>
         {renderPage()}
       </View>
       <Tabbar
         safeArea={true}
+        value={index}
         style={{background:"#fff"}}
         onSwitch={(value) => {
           setIndex(value)
@@ -42,11 +43,11 @@ const Index = (_props:any,ref:any) => {
       >
         <Tabbar.Item title="首页" icon={<Home size={18} />} value={9} />
         <Tabbar.Item title="分类" icon={<Category size={18} />} />
-        <Tabbar.Item title="发现" icon={<Find size={18} />} />
+        <Tabbar.Item title="发现" icon={<Gift size={18} />} />
         <Tabbar.Item title="购物车" icon={<Cart size={18} />} />
         <Tabbar.Item title="我的" icon={<User size={18} />} />
       </Tabbar>
-    </MainView>
+    </SafeAreaView>
   )
 }
 export default Index

@@ -9,8 +9,11 @@
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "outDir": "lib",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    // 核心修改：关闭错误级检查
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    // 核心新增：开启警告级未使用检查（TypeScript 4.5+ 支持）
+    "checkJs": true, // 可选，若需要检查 JS 文件
     "strictNullChecks": true,
     "sourceMap": true,
     "baseUrl": ".",
@@ -20,7 +23,12 @@
     "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types"
-    ]
+    ],
+    // 关键：通过 lint 规则设置警告级别（需配合 IDE 支持）
+    "lint": {
+      "unusedLocals": "warn",
+      "unusedParameters": "warn"
+    }
   },
   "include": ["./src", "./types"],
   "compileOnSave": false

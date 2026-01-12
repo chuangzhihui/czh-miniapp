@@ -2,10 +2,11 @@ import React, {forwardRef, useState,useRef} from 'react'
 import {View} from "@tarojs/components";
 import {Button} from "@nutui/nutui-react-taro";
 import Taro from "@tarojs/taro";
-import ListView from "../../component/ListView/ListView";
+import ListView, {ListViewRef} from "../../component/ListView/ListView";
+import {PageDto} from "../../models/CommonDto";
 
 const CatePage=(_props:any, ref:any)=>{
-  const listRef=useRef(null);
+  const listRef=useRef<ListViewRef | null>(null);
   const itemVariable = (data: any, index: number) => {
     return(
       <View style={{height:200,background:"red"}}>
@@ -13,21 +14,21 @@ const CatePage=(_props:any, ref:any)=>{
       </View>
     );
   }
-  const getData11=(page:number,size:number,callback:(res:any)=>void)=>{
-    console.log("加载第"+page+"页，size:"+size)
-    let datas=[];
+  const getData11=(pageDto:PageDto,callback:(res:any)=>void)=>{
+    console.log("加载第"+pageDto.page+"页，size:"+pageDto.size)
+    let datas:any[]=[];
     let all=100;
-    for(var i=1;i<=size;i++)
+    for(var i=1;i<=pageDto.size;i++)
     {
       datas.push({
-        index:(page-1)*size+i
+        index:(pageDto.page-1)*pageDto.size+i
       })
     }
     setTimeout(()=>{
       callback({
-        code:1,
+        code:200,
         data:{
-          all,datas
+          all,list:datas
         }
       })
     },1000)
@@ -37,13 +38,13 @@ const CatePage=(_props:any, ref:any)=>{
       <View  style={{height:300,background:"orange",marginBottom:10}}>
         <Button onClick={()=>{
           console.log(listRef.current)
-          listRef.current.scrollToItem(5)
+          listRef.current?.scrollToItem(5)
         }}>滚动到index5</Button>
         <Button onClick={()=>{
-          listRef.current.scrollToTop();
+          listRef.current?.scrollToTop();
         }}>滚动到顶部</Button>
         <Button onClick={()=>{
-          listRef.current.scrollToBottom();
+          listRef.current?.scrollToBottom();
         }}>滚动到底部</Button>
         <Button onClick={()=>{
           Taro.navigateTo({

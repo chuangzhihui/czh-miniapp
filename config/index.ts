@@ -5,9 +5,18 @@ import prodConfig from './prod'
 const path = require('path');
 export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
   const baseConfig: UserConfigExport<'webpack5'> = {
-    projectName: 'HhkjMiniAppTemplete',
+    projectName: 'czh-miniapp',
     date: '2024-12-19',
-    designWidth: 750,
+    plugins: ['@tarojs/plugin-html'],
+    designWidth(input:any) {
+
+      // 配置 NutUI 375 尺寸
+      if ( input?.file?.replace(/\\+/g, '/').indexOf('@nutui') > -1) {
+        return 375
+      }
+      // 全局使用 Taro 默认的 750 尺寸
+      return 750
+    },
     deviceRatio: {
       640: 2.34 / 2,
       750: 1,
@@ -15,8 +24,8 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       828: 1.81 / 2
     },
     sourceRoot: 'src',
-    outputRoot: 'dist',
-    plugins: ['@tarojs/plugin-html'],
+    outputRoot:  `dist/${process.env.TARO_ENV}`,
+
     defineConstants: {
     },
     copy: {
@@ -37,6 +46,8 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
     },
     mini: {
+      debugReact:true,
+      miniCssExtractPluginOption: { ignoreOrder: true },
       postcss: {
         pxtransform: {
           enable: true,
@@ -58,6 +69,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
     },
     h5: {
       publicPath: '/',
+      // outputRoot:"build",
       staticDirectory: 'static',
       output: {
         filename: 'js/[name].[hash:8].js',

@@ -1,0 +1,44 @@
+.CZHFormItemContainer{
+  display: flex;
+  padding: 30px;
+  width: 100%;
+  background: #fff;
+  margin-bottom: 20px;
+  .labelView{
+    color: #666;
+    width: 150px;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 32px;
+    .required{
+      color: #FE2907;
+    }
+  }
+  .contentView{
+    display: flex;
+    input{
+      width: 100%;
+
+      font-size: 32px;
+    }
+  }
+  &.horizontal{
+    flex-direction: row;
+    align-items: center;
+    .contentView{
+      flex:1;
+      margin-left: 30px;
+     input{
+       text-align: right;
+     }
+    }
+  }
+  &.vertical{
+    flex-direction: column;
+    justify-content: center;
+    .contentView{
+      margin-top: 20px;
+    }
+  }
+
+}

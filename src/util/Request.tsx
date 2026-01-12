@@ -1,30 +1,29 @@
 import Taro from "@tarojs/taro";
-import HttpResponseProps from "../props/HttpResponseProps";
 
-interface Method {
-  /** HTTP 请求 OPTIONS */
-  OPTIONS
-  /** HTTP 请求 GET */
-  GET
-  /** HTTP 请求 HEAD */
-  HEAD
-  /** HTTP 请求 POST */
-  POST
-  /** HTTP 请求 PUT */
-  PUT
-  /** HTTP 请求 PATCH */
-  PATCH
-  /** HTTP 请求 DELETE */
-  DELETE
-  /** HTTP 请求 TRACE */
-  TRACE
-  /** HTTP 请求 CONNECT */
-  CONNECT
+export interface HttpResponse<T>{
+  code:number;//状态码 200成功 非200失败
+  msg:string;//错误信息
+  data:T;//数据包
 }
+type Method="POST" | "GET";
 //接口域名
-const API_URL="http://127.0.0.1:8083/";
-const request=(url:string,data:any,method:keyof Method)=>{
-  return new Promise<HttpResponseProps>((resolve)=>{
+const API_URL="http://127.0.0.1:8081";
+export function httpPost<T>(url:string,data:any):Promise<HttpResponse<T>>{
+  return httpRequest(url,data,"POST");
+}
+export function httpGet<T>(url:string,data:any={}):Promise<HttpResponse<T>>{
+  return httpRequest(url,data,"GET");
+}
+function httpRequest<T>(url:string,data:any,method:Method):Promise<HttpResponse<T>>{
+  if(method==="GET")
+  {
+    const query=new URLSearchParams(data);
+    if(query.toString())
+    {
+      url+="?"+query.toString();
+    }
+  }
+  return new Promise<HttpResponse<T>>((resolve)=>{
     Taro.request({
       url: API_URL+url, //仅为示例，并非真实的接口地址
       data,
@@ -36,7 +35,7 @@ const request=(url:string,data:any,method:keyof Method)=>{
       method:method,
       dataType:"json",
       success: function (res) {
-        let result:HttpResponseProps={
+        let result:HttpResponse<T>={
           code:res.data.code,
           msg:res.data.msg,
           data:res.data.data
@@ -44,26 +43,18 @@ const request=(url:string,data:any,method:keyof Method)=>{
         resolve(result)
       },
       fail:(err)=>{
-          Taro.showToast({
-            title:err.errMsg,
-            icon:"none"
-          })
-          let result:HttpResponseProps={
-            code:0,
-            msg:err.errMsg,
-            data:[]
-          }
-          resolve(result)
+        Taro.showToast({
+          title:err.errMsg,
+          icon:"none"
+        })
+        let result:HttpResponse<any>={
+          code:0,
+          msg:err.errMsg,
+          data:[]
+        }
+        resolve(result)
       }
     })
   })
 }
-export  default  class Request{
-  static POST(url:string,data:any){
-      return request(url,data,"POST")
-  }
-  static GET(url:string)
-  {
-    return request(url,{},"GET");
-  }
-}
+

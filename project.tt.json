@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "./",
-  "projectname": "HhkjMiniAppTemplete",
-  "description": "鸿鹄科技小程序开发模板",
+  "projectname": "czh-miniapp",
+  "description": "创智汇小程序开发模板",
   "appid": "touristappid",
   "setting": {
     "urlCheck": true,

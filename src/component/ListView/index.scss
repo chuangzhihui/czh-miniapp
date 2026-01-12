@@ -1,13 +1,54 @@
-.listViewItem>.nut-grid-item-content{
-  padding: 0;
-  background: orange;
+//.listViewItem>.nut-grid-item-content{
+//  padding: 0;
+//  background: orange;
+//}
+//.listViewItem>.nut-grid-item-content> view{
+//  width: 100%;
+//}
+
+.listView{
+  flex: 1;
+  box-sizing: border-box;
+  .footView{
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stickyItem{
+    position: sticky;
+    top: 0;
+    z-index: 99;
+  }
+  .my-masonry-grid {
+    display: flex;
+    //margin-left: -30px; /* 设置间距 */
+    //gap: 30px;
+    width: auto;
+  }
+  .gap5{
+    gap: 5px;
+  }
+  .gap10{
+    gap: 10px;
+  }
+  .gap15{
+    gap: 15px;
+  }
+  .gap20{
+    gap: 20px;
+  }
+  .gap25{
+    gap: 25px;
+  }
+  .gap30{
+    gap: 30px;
+  }
+  .my-masonry-grid_column {
+    display: flex;
+    flex-direction: column;
+    //gap: 30px;
+    //padding-left: 30px; /* 设置列间距 */
+  }
 }
-.listViewItem>.nut-grid-item-content> view{
-  width: 100%;
-}
-.footView{
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
