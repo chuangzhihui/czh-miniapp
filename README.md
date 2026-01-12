@@ -1,5 +1,5 @@
 ### 开发者
-*   [重庆鸿鹄智云科技有限公司](https://honghukeji.net)
+*   [重庆创智汇信息技术有限公司](https://honghukeji.net)
 *   可商用，无版权限制 禁止用于非法用途
 *   有开发需求欢迎联系 18696989648 张 微信同号
 
@@ -27,5 +27,6 @@
 *   空了在写
 *   [基础框架-Taro](https://nervjs.github.io/)
 *   [UI框架-NUTUI](https://nutui.jd.com/)
-*   [对应的Java服务端](https://github.com/honghukeji-cn/templete-java.git)
+*   [对应的Java服务端](https://github.com/chuangzhihui/czh-server.git)
+*   [对应的后台管理](https://github.com/chuangzhihui/czh-admin.git)
 
