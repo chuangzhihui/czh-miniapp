@@ -1,11 +1,6 @@
 import {httpGet, httpPost} from "../util/Request";
+import {GetUploadTokenVo} from "../models/CommonVo";
 
 export const getUploadConfigApi=()=>{
-  return httpGet<any>("/admin/login/getUploadToken",{});
-}
-/**
- * 获取火山云上传地址
- */
-export const getTosSignUrlApi=(params:any)=>{
-  return httpPost<any>("/admin/login/getTosSignUrl",params);
+  return httpGet<GetUploadTokenVo>("/admin/login/getUploadToken",{});
 }

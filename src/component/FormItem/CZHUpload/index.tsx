@@ -13,8 +13,6 @@ const CZHUpload=(props:CZHUploadProps)=>{
   const {max=1,mediaType=1}=props;
  const fileListRef=useRef<CZHFileItem[]>([])
   const [_, setForceUpdate] = useState({});
-  const [uploading,setUploading]=useState<boolean>(false);
-  const [percent,setPercent]=useState<number>(0);
   const chooseImg=()=>{
     Taro.chooseMedia({
       mediaType:mediaType===1?["image"]:(mediaType===2?["video"]:["mix"]),
@@ -42,7 +40,6 @@ const CZHUpload=(props:CZHUploadProps)=>{
               }
             })
           }else{
-            console.log(file)
             //视频
             let fileItem:CZHFileItem={
               fileType:2,

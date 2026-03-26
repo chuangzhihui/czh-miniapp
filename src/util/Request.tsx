@@ -7,7 +7,8 @@ export interface HttpResponse<T>{
 }
 type Method="POST" | "GET";
 //接口域名
-const API_URL="http://127.0.0.1:8081";
+// const API_URL="http://127.0.0.1:8081";
+const API_URL="https://java.cqczh.com.cn:10443";
 export function httpPost<T>(url:string,data:any):Promise<HttpResponse<T>>{
   return httpRequest(url,data,"POST");
 }
